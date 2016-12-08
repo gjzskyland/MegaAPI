@@ -3,6 +3,7 @@ package tk.gjz010.plugins.megaapi;
 import com.gmail.stefvanschiedev.customblocks.block.CustomBlock;
 import com.gmail.stefvanschiedev.customblocks.events.listeners.BlockBreakEventListener;
 import java.util.logging.Level;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -15,6 +16,7 @@ public class MegaPlugin extends JavaPlugin implements Listener{
     @Override
     public void onEnable() {
         getLogger().log(Level.INFO, "{0}.onEnable()", this.getClass().getName());
+        Bukkit.getPluginManager().registerEvents(this, this);
         BlockBreakEventListener blockBreakEventListener = new BlockBreakEventListener(this);
     }
 
@@ -25,6 +27,7 @@ public class MegaPlugin extends JavaPlugin implements Listener{
     }
     @EventHandler
     public void onMessage(AsyncPlayerChatEvent e){
+        //System.out.println(e.getMessage());
         if(e.getMessage().contains("create_custom_block")){
         ItemStack s=new ItemStack(Material.DIAMOND_BLOCK);
         CustomBlock cb=new CustomBlock(s);
