@@ -31,7 +31,7 @@ public class MegaPlugin extends JavaPlugin implements Listener{
         if(e.getMessage().contains("create_custom_block")){
         ItemStack s=new ItemStack(Material.DIAMOND_BLOCK);
         CustomBlock cb=new CustomBlock(s);
-        cb.place(e.getPlayer().getLocation());
+        Bukkit.getScheduler().runTask(this,()->cb.place(e.getPlayer().getLocation()));
         }
     }
 }
