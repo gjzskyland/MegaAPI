@@ -29,9 +29,10 @@ public class MegaPlugin extends JavaPlugin implements Listener{
     public void onMessage(AsyncPlayerChatEvent e){
         //System.out.println(e.getMessage());
         if(e.getMessage().contains("create_custom_block")){
-        ItemStack s=new ItemStack(Material.DIAMOND_BLOCK);
+        ItemStack s=new ItemStack(Material.SKULL);
         CustomBlock cb=new CustomBlock(s);
         Bukkit.getScheduler().runTask(this,()->cb.place(e.getPlayer().getLocation()));
+        Bukkit.getScheduler().runTask(this,()->cb.setUnderlyingBlock(Material.STONE));
         }
     }
 }
