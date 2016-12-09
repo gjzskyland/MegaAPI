@@ -1,5 +1,7 @@
 package tk.gjz010.plugins.megaapi;
 
+import com.comphenix.protocol.ProtocolLibrary;
+import com.comphenix.protocol.ProtocolManager;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.logging.Level;
@@ -16,16 +18,17 @@ import tk.gjz010.plugins.megaapi.block.ItemOverride;
 import tk.gjz010.plugins.megaapi.block.test.MagicOreBlock;
 
 public class MegaPlugin extends JavaPlugin implements Listener{
-    private Map<Material,Map<Integer,Class<? extends CustomItem>>> customItemMap;
+    
     public static MegaPlugin INSTANCE;
     private CustomItemManager itemManager;
+    private ProtocolManager protocolManager;
     // This code is called after the server starts and after the /reload command
     @Override
     public void onEnable() {
         getLogger().log(Level.INFO, "{0}.onEnable()", this.getClass().getName());
-        customItemMap=new HashMap<>();
         Bukkit.getPluginManager().registerEvents(this, this);
         itemManager=new CustomItemManager();
+        protocolManager=ProtocolLibrary.getProtocolManager();
         INSTANCE=this;
     }
 
@@ -33,6 +36,9 @@ public class MegaPlugin extends JavaPlugin implements Listener{
     @Override
     public void onDisable() {
         getLogger().log(Level.INFO, "{0}.onDisable()", this.getClass().getName());
+    }
+    public CustomItemManager getItemManager(){
+        return itemManager;
     }
     @EventHandler
     public void onMessage(AsyncPlayerChatEvent e){
@@ -43,25 +49,5 @@ public class MegaPlugin extends JavaPlugin implements Listener{
                 itemManager.place(ore, e.getPlayer().getLocation());
             });
         }
-    }
-    private void registerCustomItem(Material base,int damage,Class<? extends CustomItem> clazz){
-        Map<Integer,Class<? extends CustomItem>> m;
-        if(!customItemMap.containsKey(base)){
-            m=new HashMap<>();
-            customItemMap.put(base,m);
-        }else{
-            m=customItemMap.get(base);
-        }
-        m.put(damage, clazz);
-    }
-    public void registerCustomItem(Class<? extends CustomItem> clazz){
-        ItemOverride meta=clazz.getAnnotation(ItemOverride.class);
-        registerCustomItem(meta.base(),meta.damage(),clazz);
-    }
-    public Class<? extends CustomItem> getCustomItemClass(Material base,int damage){
-        if(!customItemMap.containsKey(base)) return null;
-        Map<Integer,Class<? extends CustomItem>> m=customItemMap.get(base);
-        if(!m.containsKey(damage)) return null;
-        return m.get(damage);
     }
 }
