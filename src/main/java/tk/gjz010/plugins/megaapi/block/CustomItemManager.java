@@ -28,7 +28,8 @@ public class CustomItemManager {
         return item.getClass().getAnnotation(ItemOverride.class).damage();
     }
     public ItemStack getItemStack(CustomItem item,int amount){
-        ItemStack is=new ItemStack(getBase(item),amount,(short)getDamage(item));
+        ItemStack is=new ItemStack(getBase(item),amount);
+        is.setDurability((short)getDamage(item));
         ItemMeta meta=is.getItemMeta();
         meta.setDisplayName(item.getName(Locale.ENGLISH));
         meta.setUnbreakable(true);
