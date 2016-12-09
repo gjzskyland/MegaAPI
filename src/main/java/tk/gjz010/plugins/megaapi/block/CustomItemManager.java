@@ -35,10 +35,11 @@ public class CustomItemManager {
         meta.setUnbreakable(true);
         meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES,ItemFlag.HIDE_UNBREAKABLE);
         meta.setLore(Arrays.asList(item.getLores(Locale.ENGLISH)));
+        is.setItemMeta(meta);
         return is;
     }
     public Location getBlockLoc(Location loc){
-        return loc.getBlock().getLocation();
+        return loc.getBlock().getLocation().add(0.5, 0, 0.5);
     }
     public void place(CustomBlock block,Location loc){
         ArmorStand shell=(ArmorStand) loc.getWorld().spawnEntity(getBlockLoc(loc), EntityType.ARMOR_STAND);
@@ -48,6 +49,6 @@ public class CustomItemManager {
         shell.setSilent(true);
         shell.setInvulnerable(true);
         shell.setHelmet(getItemStack(block,1));
-        getBlockLoc(loc).getBlock().setType(Material.BARRIER);
+        loc.getBlock().setType(Material.BARRIER);
     }
 }
