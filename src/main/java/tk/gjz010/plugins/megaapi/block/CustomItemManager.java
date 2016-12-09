@@ -8,6 +8,7 @@ package tk.gjz010.plugins.megaapi.block;
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.events.PacketContainer;
+import com.comphenix.protocol.wrappers.BlockPosition;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -92,8 +93,7 @@ public class CustomItemManager implements Listener{
         PacketContainer breakAnim=ProtocolLibrary.getProtocolManager().createPacket(PacketType.Play.Server.BLOCK_BREAK_ANIMATION);
         breakAnim.getIntegers().write(0, ev.getPlayer().getEntityId())
                 .write(1,4);
-        long pos=(((long)b.getX() & 0x3FFFFFF) << 38) | (((long)b.getY() & 0xFFF) << 26) | ((long)b.getZ()& 0x3FFFFFF);
-        breakAnim.getLongs().write(0,pos);
+        breakAnim.getBlockPositionModifier().write(0, new BlockPosition(b.getX(),b.getY(),b.getZ()));
         try {
             ProtocolLibrary.getProtocolManager().sendServerPacket(ev.getPlayer(), breakAnim);
         } catch (InvocationTargetException ex) {
