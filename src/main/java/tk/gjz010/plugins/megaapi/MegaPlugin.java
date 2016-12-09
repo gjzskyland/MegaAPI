@@ -26,10 +26,10 @@ public class MegaPlugin extends JavaPlugin implements Listener{
     @Override
     public void onEnable() {
         getLogger().log(Level.INFO, "{0}.onEnable()", this.getClass().getName());
-        Bukkit.getPluginManager().registerEvents(this, this);
-        Bukkit.getPluginManager().registerEvents(itemManager, this);
         itemManager=new CustomItemManager();
         protocolManager=ProtocolLibrary.getProtocolManager();
+        Bukkit.getPluginManager().registerEvents(this, this);
+        Bukkit.getPluginManager().registerEvents(itemManager, this);
         INSTANCE=this;
     }
 
