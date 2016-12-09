@@ -91,7 +91,9 @@ public class CustomItemManager implements Listener{
         if(shell==null) return;
         PacketContainer breakAnim=ProtocolLibrary.getProtocolManager().createPacket(PacketType.Play.Server.BLOCK_BREAK_ANIMATION);
         breakAnim.getIntegers().write(0, ev.getPlayer().getEntityId())
-                .write(1,b.getX()).write(2,b.getY()).write(3,b.getZ()).write(4,4);
+                .write(1,4);
+        long pos=(((long)b.getX() & 0x3FFFFFF) << 38) | (((long)b.getY() & 0xFFF) << 26) | ((long)b.getZ()& 0x3FFFFFF);
+        breakAnim.getLongs().write(0,pos);
         try {
             ProtocolLibrary.getProtocolManager().sendServerPacket(ev.getPlayer(), breakAnim);
         } catch (InvocationTargetException ex) {
