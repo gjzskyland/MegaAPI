@@ -2,3 +2,4 @@ name: MegaAPI
 version: "1.0-SNAPSHOT"
 author: gjz010
 main: tk.gjz010.plugins.megaapi.MegaPlugin
+depend: [ProtocolLib]
